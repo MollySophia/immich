@@ -14,6 +14,7 @@ from immich_ml.sessions.ort import OrtSession
 from ..config import clean_name, log, settings
 from ..schemas import ModelFormat, ModelIdentity, ModelSession, ModelTask, ModelType
 from ..sessions.ann import AnnSession
+from ..sessions.cix import CixSession
 
 
 class InferenceModel(ABC):
@@ -72,12 +73,15 @@ class InferenceModel(ABC):
             ModelFormat.RKNN: ["*.armnn"],
         }
 
-        snapshot_download(
-            f"immich-app/{clean_name(self.model_name)}",
-            cache_dir=self.cache_dir,
-            local_dir=self.cache_dir,
-            ignore_patterns=ignored_patterns.get(self.model_format, []),
-        )
+        if 'cix' in self.model_name:
+            self.model_format = ModelFormat.CIX
+        else:
+            snapshot_download(
+                f"immich-app/{clean_name(self.model_name)}",
+                cache_dir=self.cache_dir,
+                local_dir=self.cache_dir,
+                ignore_patterns=ignored_patterns.get(self.model_format, []),
+            )
 
     def _load(self) -> ModelSession:
         return self._make_session(self.model_path)
@@ -115,6 +119,8 @@ class InferenceModel(ABC):
                 session = OrtSession(model_path)
             case ".rknn":
                 session = rknn.RknnSession(model_path)
+            case ".cix":
+                session = CixSession(model_path)
             case _:
                 raise ValueError(f"Unsupported model file type: {model_path.suffix}")
         return session

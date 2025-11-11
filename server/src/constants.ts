@@ -73,6 +73,7 @@ export const CLIP_MODEL_INFO: Record<string, ModelInfo> = {
   'ViT-B-32__laion400m_e31': { dimSize: 512 },
   'ViT-B-32__laion400m_e32': { dimSize: 512 },
   'ViT-B-32__openai': { dimSize: 512 },
+  'ViT-B-32__cix': { dimSize: 512 },
   'XLM-Roberta-Base-ViT-B-32__laion5b_s13b_b90k': { dimSize: 512 },
   'XLM-Roberta-Large-Vit-B-32': { dimSize: 512 },
   RN50x4__openai: { dimSize: 640 },

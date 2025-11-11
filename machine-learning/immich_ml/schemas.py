@@ -37,6 +37,7 @@ class ModelFormat(StrEnum):
     ARMNN = "armnn"
     ONNX = "onnx"
     RKNN = "rknn"
+    CIX = "cix"
 
 
 class ModelSource(StrEnum):
